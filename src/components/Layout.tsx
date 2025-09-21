@@ -8,14 +8,11 @@ import {
   Search, 
   Settings,
   Bell,
-  User,
-  LogOut,
-  Shield
+  User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/hooks/useAuth';
 
 interface LayoutProps {
   children: ReactNode;
@@ -23,7 +20,6 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
-  const { profile, signOut } = useAuth();
   
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
@@ -48,16 +44,10 @@ const Layout = ({ children }: LayoutProps) => {
                 <Leaf className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-lg font-semibold text-foreground">
-                HerbTrace
+                AyurTrace
               </span>
-              {profile && (
-                <Badge variant="outline" className="ml-2">
-                  {profile.role.replace('_', ' ').toUpperCase()}
-                </Badge>
-              )}
             </div>
             <Badge variant="secondary" className="hidden md:flex">
-              <Shield className="h-3 w-3 mr-1" />
               Blockchain Verified
             </Badge>
           </div>
@@ -83,22 +73,6 @@ const Layout = ({ children }: LayoutProps) => {
             <Button variant="ghost" size="icon">
               <Settings className="h-4 w-4" />
             </Button>
-            {profile && (
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-muted-foreground hidden lg:block">
-                  {profile.full_name}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={signOut}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span className="hidden sm:ml-2 sm:block">Sign Out</span>
-                </Button>
-              </div>
-            )}
             <Avatar className="h-8 w-8">
               <AvatarImage src="/placeholder-user.jpg" />
               <AvatarFallback>
