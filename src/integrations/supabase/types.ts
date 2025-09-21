@@ -44,6 +44,47 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          id: string
+          new_data: Json | null
+          old_data: Json | null
+          record_id: string
+          table_name: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          id?: string
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id: string
+          table_name: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          id?: string
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string
+          table_name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       collection_events: {
         Row: {
           block_hash: string
@@ -152,6 +193,45 @@ export type Database = {
         }
         Relationships: []
       }
+      companies: {
+        Row: {
+          address: Json | null
+          company_type: Database["public"]["Enums"]["user_role"]
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string | null
+          id: string
+          license_number: string | null
+          name: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: Json | null
+          company_type: Database["public"]["Enums"]["user_role"]
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          license_number?: string | null
+          name: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: Json | null
+          company_type?: Database["public"]["Enums"]["user_role"]
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          license_number?: string | null
+          name?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       facilities: {
         Row: {
           certifications: string[] | null
@@ -185,6 +265,78 @@ export type Database = {
         }
         Relationships: []
       }
+      herb_batches: {
+        Row: {
+          batch_code: string
+          created_at: string | null
+          created_by: string
+          dht_data: Json | null
+          farmer_company_id: string
+          geo_location: Json
+          harvest_date: string
+          herb_name: string
+          herb_type: string
+          id: string
+          quantity_kg: number
+          sample_test_data: Json | null
+          soil_moisture: number | null
+          status: string | null
+          updated_at: string | null
+          variety: string | null
+        }
+        Insert: {
+          batch_code: string
+          created_at?: string | null
+          created_by: string
+          dht_data?: Json | null
+          farmer_company_id: string
+          geo_location: Json
+          harvest_date: string
+          herb_name: string
+          herb_type: string
+          id?: string
+          quantity_kg: number
+          sample_test_data?: Json | null
+          soil_moisture?: number | null
+          status?: string | null
+          updated_at?: string | null
+          variety?: string | null
+        }
+        Update: {
+          batch_code?: string
+          created_at?: string | null
+          created_by?: string
+          dht_data?: Json | null
+          farmer_company_id?: string
+          geo_location?: Json
+          harvest_date?: string
+          herb_name?: string
+          herb_type?: string
+          id?: string
+          quantity_kg?: number
+          sample_test_data?: Json | null
+          soil_moisture?: number | null
+          status?: string | null
+          updated_at?: string | null
+          variety?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "herb_batches_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "herb_batches_farmer_company_id_fkey"
+            columns: ["farmer_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       laboratories: {
         Row: {
           accreditation_number: string
@@ -214,6 +366,145 @@ export type Database = {
           test_capabilities?: string[] | null
         }
         Relationships: []
+      }
+      manufacturing_records: {
+        Row: {
+          batch_code: string
+          composition_details: Json
+          created_at: string | null
+          created_by: string
+          final_product_quantity: number
+          id: string
+          manufacturing_company_id: string
+          manufacturing_date: string
+          product_name: string
+          product_type: string
+          sensor_data: Json | null
+          status: string | null
+          test_result_ids: string[]
+          total_herb_quantity_used_kg: number
+          updated_at: string | null
+        }
+        Insert: {
+          batch_code: string
+          composition_details: Json
+          created_at?: string | null
+          created_by: string
+          final_product_quantity: number
+          id?: string
+          manufacturing_company_id: string
+          manufacturing_date: string
+          product_name: string
+          product_type: string
+          sensor_data?: Json | null
+          status?: string | null
+          test_result_ids: string[]
+          total_herb_quantity_used_kg: number
+          updated_at?: string | null
+        }
+        Update: {
+          batch_code?: string
+          composition_details?: Json
+          created_at?: string | null
+          created_by?: string
+          final_product_quantity?: number
+          id?: string
+          manufacturing_company_id?: string
+          manufacturing_date?: string
+          product_name?: string
+          product_type?: string
+          sensor_data?: Json | null
+          status?: string | null
+          test_result_ids?: string[]
+          total_herb_quantity_used_kg?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manufacturing_records_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manufacturing_records_manufacturing_company_id_fkey"
+            columns: ["manufacturing_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      packaged_products: {
+        Row: {
+          cost_breakdown: Json | null
+          created_at: string | null
+          expiry_date: string | null
+          final_status: string | null
+          id: string
+          manufacturing_record_id: string
+          package_details: Json
+          packaged_by: string
+          packaging_company_id: string
+          packaging_date: string
+          product_qr_code: string
+          updated_at: string | null
+          verification_status: string | null
+        }
+        Insert: {
+          cost_breakdown?: Json | null
+          created_at?: string | null
+          expiry_date?: string | null
+          final_status?: string | null
+          id?: string
+          manufacturing_record_id: string
+          package_details: Json
+          packaged_by: string
+          packaging_company_id: string
+          packaging_date: string
+          product_qr_code: string
+          updated_at?: string | null
+          verification_status?: string | null
+        }
+        Update: {
+          cost_breakdown?: Json | null
+          created_at?: string | null
+          expiry_date?: string | null
+          final_status?: string | null
+          id?: string
+          manufacturing_record_id?: string
+          package_details?: Json
+          packaged_by?: string
+          packaging_company_id?: string
+          packaging_date?: string
+          product_qr_code?: string
+          updated_at?: string | null
+          verification_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "packaged_products_manufacturing_record_id_fkey"
+            columns: ["manufacturing_record_id"]
+            isOneToOne: false
+            referencedRelation: "manufacturing_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "packaged_products_packaged_by_fkey"
+            columns: ["packaged_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "packaged_products_packaging_company_id_fkey"
+            columns: ["packaging_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       processing_steps: {
         Row: {
@@ -274,6 +565,47 @@ export type Database = {
             columns: ["facility_id"]
             isOneToOne: false
             referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          employee_id: string | null
+          full_name: string | null
+          id: string
+          is_active: boolean | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          full_name?: string | null
+          id: string
+          is_active?: boolean | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          full_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -402,6 +734,89 @@ export type Database = {
           },
         ]
       }
+      test_results: {
+        Row: {
+          batch_qr_code: string
+          created_at: string | null
+          herb_batch_id: string
+          id: string
+          manufacturing_company_id: string | null
+          quality_grade: string
+          quantity_approved_kg: number
+          quantity_received_kg: number
+          quantity_wasted_kg: number
+          status: string | null
+          test_date: string
+          test_parameters: Json
+          tested_by: string
+          testing_company_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          batch_qr_code: string
+          created_at?: string | null
+          herb_batch_id: string
+          id?: string
+          manufacturing_company_id?: string | null
+          quality_grade: string
+          quantity_approved_kg: number
+          quantity_received_kg: number
+          quantity_wasted_kg: number
+          status?: string | null
+          test_date: string
+          test_parameters: Json
+          tested_by: string
+          testing_company_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          batch_qr_code?: string
+          created_at?: string | null
+          herb_batch_id?: string
+          id?: string
+          manufacturing_company_id?: string | null
+          quality_grade?: string
+          quantity_approved_kg?: number
+          quantity_received_kg?: number
+          quantity_wasted_kg?: number
+          status?: string | null
+          test_date?: string
+          test_parameters?: Json
+          tested_by?: string
+          testing_company_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_results_herb_batch_id_fkey"
+            columns: ["herb_batch_id"]
+            isOneToOne: false
+            referencedRelation: "herb_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_results_manufacturing_company_id_fkey"
+            columns: ["manufacturing_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_results_tested_by_fkey"
+            columns: ["tested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_results_testing_company_id_fkey"
+            columns: ["testing_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -410,6 +825,18 @@ export type Database = {
       generate_block_hash: {
         Args: { data: Json; previous_hash?: string }
         Returns: string
+      }
+      get_user_company_id: {
+        Args: { user_id: string }
+        Returns: string
+      }
+      get_user_role: {
+        Args: { user_id: string }
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
+      is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
       }
       validate_geofencing: {
         Args: { coordinates: Json; harvest_date: string; species: string }
@@ -426,7 +853,12 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      user_role:
+        | "admin"
+        | "farmer"
+        | "testing_unit"
+        | "manufacturing_unit"
+        | "packaging_unit"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -553,6 +985,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: [
+        "admin",
+        "farmer",
+        "testing_unit",
+        "manufacturing_unit",
+        "packaging_unit",
+      ],
+    },
   },
 } as const
