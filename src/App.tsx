@@ -9,6 +9,11 @@ import Collection from "./pages/Collection";
 import Farmers from "./pages/Farmers";
 import Products from "./pages/Products";
 import Trace from "./pages/Trace";
+import CollectorPortal from "./pages/CollectorPortal";
+import ProcessorPortal from "./pages/ProcessorPortal";
+import TestingLabPortal from "./pages/TestingLabPortal";
+import ManufacturerPortal from "./pages/ManufacturerPortal";
+import GovViewPortal from "./pages/GovViewPortal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +31,11 @@ const App = () => (
             <Route path="/farmers" element={<Farmers />} />
             <Route path="/products" element={<Products />} />
             <Route path="/trace" element={<Trace />} />
+            <Route path="/collector-portal" element={<CollectorPortal />} />
+            <Route path="/processor-portal" element={<ProcessorPortal />} />
+            <Route path="/testing-lab-portal" element={<TestingLabPortal />} />
+            <Route path="/manufacturer-portal" element={<ManufacturerPortal />} />
+            <Route path="/gov-view-portal" element={<GovViewPortal />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

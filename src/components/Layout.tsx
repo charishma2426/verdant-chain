@@ -29,6 +29,14 @@ const Layout = ({ children }: LayoutProps) => {
     { name: 'Trace', href: '/trace', icon: Search },
   ];
 
+  const portalNavigation = [
+    { name: 'Collector Portal', href: '/collector-portal', icon: Leaf },
+    { name: 'Processor Portal', href: '/processor-portal', icon: Package },
+    { name: 'Testing Lab Portal', href: '/testing-lab-portal', icon: Search },
+    { name: 'Manufacturer Portal', href: '/manufacturer-portal', icon: Package },
+    { name: 'GovView Portal', href: '/gov-view-portal', icon: Settings },
+  ];
+
   const isActive = (href: string) => {
     return location.pathname === href;
   };
@@ -57,6 +65,20 @@ const Layout = ({ children }: LayoutProps) => {
               <Link key={item.href} to={item.href}>
                 <Button
                   variant={isActive(item.href) ? "default" : "ghost"}
+                  size="sm"
+                  className="flex items-center space-x-2"
+                >
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.name}</span>
+                </Button>
+              </Link>
+            ))}
+            <div className="mx-2 h-4 w-px bg-border" />
+            {portalNavigation.map((item) => (
+              <Link key={item.href} to={item.href}>
+                <Button
+                  variant={isActive(item.href) ? "default" : "ghost"}
+                  size="sm"
                   className="flex items-center space-x-2"
                 >
                   <item.icon className="h-4 w-4" />
@@ -87,12 +109,12 @@ const Layout = ({ children }: LayoutProps) => {
       <nav className="md:hidden border-b border-border bg-background">
         <div className="container px-4">
           <div className="flex space-x-1 overflow-x-auto py-2">
-            {navigation.map((item) => (
+            {[...navigation, ...portalNavigation].map((item) => (
               <Link key={item.href} to={item.href} className="flex-shrink-0">
                 <Button
                   variant={isActive(item.href) ? "default" : "ghost"}
                   size="sm"
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-2 whitespace-nowrap"
                 >
                   <item.icon className="h-4 w-4" />
                   <span>{item.name}</span>
